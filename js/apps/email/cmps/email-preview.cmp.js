@@ -5,10 +5,14 @@ export default {
                 <span>{{email.name}}</span>
                 <span>{{email.subject}}</span>
                 <span>{{setDate}}</span>
+                <router-link :to="'details/'+email.id">go</router-link>
             </article>
                 
 
-    `, 
+    `,
+    mathods: {
+        
+    },
     computed: {
         setDate() {
             return this.email.sentAt

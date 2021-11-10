@@ -2,19 +2,23 @@ import { emailService } from "../service/email.service.js"
 import emailList from "../cmps/email-list.cmp.js"
 import emailFilter from "../cmps/email--filter.cmp.js"
 import emailSearch from "../cmps/email-search.cmp.js"
-import emailDetails from "../cmps/email-details.cmp.js"
+
+
 export default {
     template: `
         <section class="email-app">
-            <email-filter />
-            <email-search />
-            <email-list :emails="emails" /> 
-            <email-details />
+            <div class="main-grid">
+                <email-filter />
+                <email-search />
+                <email-list @showDetails="showEmailDetails" :emails="emails" /> 
+            </div>
+            
         </section>
     `,
     data() {
         return {
-            emails: null
+            emails: null, 
+            emailToShow: null
         }
     }, 
     created() {
@@ -25,6 +29,12 @@ export default {
         emailList, 
         emailFilter, 
         emailSearch, 
-        emailDetails
+        // emailDetails
+    }, 
+    methods: {
+        showEmailDetails(emailId) {
+            emailService.getById(emailId)
+                .then(email=> this.emailToShow = email)
+        }
     }
 }
