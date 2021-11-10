@@ -43,7 +43,6 @@ export default {
     }
 }
 
-
 // const gNotes = [
 //     {
 //         id: "n101",
