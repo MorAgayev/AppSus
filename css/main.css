@@ -1,0 +1,16 @@
+@import './cmp/header.cmp.css';
+@import './cmp/footer.cmp.css';
+@import './apps/email-app/email-app.css';
+@import './apps/keep-app/keep-app.css';
+@import './cmp/home-page.css';
+
+*{box-sizing: border-box;}
+
+body {
+    margin: 0;
+}
+
+/* LAYOUT */
+.main-layout {
+    margin: 0 20px;
+}

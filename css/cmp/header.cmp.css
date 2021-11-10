@@ -1,0 +1,23 @@
+
+.header-container {
+    background-color: wheat;
+    /* position: fixed;
+    width: 100%; */
+}
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+
+}
+
+/* logo */
+.logo h1 {
+    margin: 0;
+}
+/* nav */
+nav img {
+    width: 30px;
+    height: 30px;
+}
