@@ -2,16 +2,19 @@
 @import './cmps/email-list.css';
 @import './cmps/email-filter.css';
 @import './cmps/email-search.css';
+@import './cmps/email-details.css';
+/* @import './email-detail.css'; */
+
 .email-app {
-    padding: 20px;
+    padding: 20px; 
+}
+
+.main-grid {
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: auto 1fr;
     gap: 30px;
-    /* height: 100%; */
-    
 }
-
 .email-app h1 {
     margin: 0 ;
 }

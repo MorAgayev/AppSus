@@ -1,0 +1,22 @@
+.top-details {
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-details > * {
+    margin: 0;
+}
+
+.details-body {
+    background-color: #fff;
+    border-radius: 5px;
+    height: 60%;
+    padding: 10px;
+}
+
+.details-body p {
+    padding: 0;
+}

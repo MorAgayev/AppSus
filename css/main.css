@@ -1,6 +1,7 @@
 @import './cmp/header.cmp.css';
 @import './cmp/footer.cmp.css';
 @import './apps/email-app/email-app.css';
+@import './apps/email-app/email-detail.css';
 @import './apps/note-app/note-app.css';
 @import './apps/note-app/note-img.css';
 @import './cmp/home-page.css';
@@ -11,6 +12,9 @@ body {
     margin: 0;
 }
 
+button {
+    cursor: pointer;
+}
 /* LAYOUT */
 .main-layout {
     margin: 0 20px;

@@ -13,5 +13,10 @@ export default {
     `, 
     components: {
         emailPreview
+    }, 
+    methods: {
+        // showDetails(emailId) {
+        //     this.$emit('showDetails', emailId);
+        // }
     }
 }
