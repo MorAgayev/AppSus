@@ -1,5 +1,18 @@
+.email-datails {
+    background-color: #aaa;
+    padding: 40px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.email-datails :first-child {
+    align-self: flex-start;
+}
 .top-details {
     background-color: #fff;
+    border-radius: 5px;
     padding: 10px;
     display: flex;
     justify-content: space-between;

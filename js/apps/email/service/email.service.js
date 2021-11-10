@@ -2,13 +2,37 @@ import { storageService } from '../../../services/async-storage-service.js'
 import { utilService } from '../../../services/util-service.js'
 
 const EMAILS_KEY = 'Emails';
-createEmails();
+const SEND_EMAIL_KEY = 'SendEmails'
+const gEmails = createEmails();
 
 export const emailService = {
     createEmails, 
     createEmail, 
     queryEmails, 
-    getById
+    getById, 
+    removeEmail, 
+    setToRead, 
+    addToSendsEmails
+}
+
+function addToSendsEmails(email) {
+    // if()
+    // createEmail(name,subject, body)
+    // console.log(email);
+    // storageService.post(SEND_EMAIL_KEY, email)
+}
+
+function setToRead(id) {
+    getById(id)
+        .then(email=> {
+            console.log('email', email);
+            email.isRead = false;
+            storageService.put(EMAILS_KEY, email)
+        })
+}
+
+function removeEmail(id) {
+    return storageService.remove(EMAILS_KEY, id)
 }
 
 function getById(id) {
@@ -37,7 +61,7 @@ function createEmail(name,subject, body) {
         name,
         subject,
         body,
-        isRead: true,
+        isRead: false,
         sentAt : new Date ,
         to: 'momo@momo.com'
     }

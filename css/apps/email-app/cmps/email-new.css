@@ -1,0 +1,39 @@
+.new-email {
+    border: 1px solid rgb(163, 162, 162);
+    width: 60%; 
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+
+.new-title h4 {
+    margin: 0;
+}
+
+.new-title {
+    margin-bottom: 10px;
+    background-color: #111;
+    color: whitesmoke;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.new-form input {
+    height: 35px;
+}
+
+.new-form textarea {
+    height: 200px;
+}
+

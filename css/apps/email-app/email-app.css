@@ -3,6 +3,7 @@
 @import './cmps/email-filter.css';
 @import './cmps/email-search.css';
 @import './cmps/email-details.css';
+@import './cmps/email-new.css';
 /* @import './email-detail.css'; */
 
 .email-app {
