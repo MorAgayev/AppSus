@@ -1,0 +1,14 @@
+
+.note-todos h4 {
+    margin: 0;
+}
+
+.note-todos ul {
+    display: inline;
+    margin-bottom: 10px;
+}
+
+.note-todos ul li {
+    display: flex;
+    justify-content: space-between;
+}

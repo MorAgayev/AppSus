@@ -1,10 +1,22 @@
+@import './cmps/note-preview.css';
+@import './cmps/note-img.css';
+@import './cmps/note-video.css';
+@import './cmps/note-todos.css';
+
 .note-app {
     background-color: #aaa;
-    padding: 20px;
-    /* height: 100%; */
-    
+    padding: 20px;   
 }
-
 .note-app h1 {
     margin: 0 ;
+}
+
+.note-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.note-list li {
+    list-style: none;
 }

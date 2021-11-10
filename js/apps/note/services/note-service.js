@@ -30,6 +30,10 @@ const gNotes = [
         isPinned: false,
         info: {
             txt: "Fullstack Me Baby!"
+        },
+        style: {
+            backgroundColor: "dimgray",
+            padding: '10px'
         }
     },
     {
@@ -41,11 +45,25 @@ const gNotes = [
             url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/1280px-Flag_of_Israel.svg.png"
         },
         style: {
-            backgroundColor: "#00d"
+            backgroundColor: "lightskyblue",
+            padding: '10px'
         }
     },
     {
         id: "n103",
+        type: "note-video",
+        isPinned: false,
+        info: {
+            title: "My Song!",
+            url: "https://www.youtube.com/embed/tgbNymZ7vqY"
+        },
+        style: {
+            backgroundColor: "lightsalmon",
+            padding: '10px'
+        }
+    },
+    {
+        id: "n104",
         type: "note-todos",
         isPinned: false,
         info: {
@@ -54,8 +72,12 @@ const gNotes = [
                 { txt: "Driving liscence", doneAt: null },
                 { txt: "Coding power", doneAt: 187111111 }
             ]
+        },
+        style: {
+            backgroundColor: "lightgreen",
+            padding: '10px'
         }
     }
 ];
 
-// _createNotes();
+_createNotes();
