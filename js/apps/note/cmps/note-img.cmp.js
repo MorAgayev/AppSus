@@ -3,7 +3,7 @@ export default {
     props: ['info'],
     template: `
         <div class="note-img">
-            {{info.title}}
+            {{info.txt}}
             <img :src="info.url">
         </div>
     `,

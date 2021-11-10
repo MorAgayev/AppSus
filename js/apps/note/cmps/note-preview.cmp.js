@@ -43,7 +43,7 @@ export default {
 //         type: "note-img",
 //         isPinned: false,
 //         info: {
-//             title: "Bobi and Me",
+//             txt: "Bobi and Me",
 //             url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/1280px-Flag_of_Israel.svg.png"
 //         },
 //         style: {
@@ -56,7 +56,7 @@ export default {
 //         type: "note-video",
 //         isPinned: false,
 //         info: {
-//             title: "My Song!",
+//             txt: "My Song!",
 //             url: "https://www.youtube.com/embed/tgbNymZ7vqY"
 //         },
 //         style: {
@@ -69,7 +69,7 @@ export default {
 //         type: "note-todos",
 //         isPinned: false,
 //         info: {
-//             label: "Get my stuff together",
+//             txt: "Get my stuff together",
 //             todos: [
 //                 { txt: "Driving liscence", doneAt: null },
 //                 { txt: "Coding power", doneAt: 187111111 }

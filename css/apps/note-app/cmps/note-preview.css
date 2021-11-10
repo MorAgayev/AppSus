@@ -1,4 +1,6 @@
 
 .note-preview {
     border: 3px solid black;
+    display: flex;
+    justify-content: center;
 }
