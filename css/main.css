@@ -2,7 +2,6 @@
 @import './cmp/footer.cmp.css';
 @import './apps/email-app/email-app.css';
 @import './apps/note-app/note-app.css';
-@import './apps/note-app/note-img.css';
 @import './cmp/home-page.css';
 
 *{box-sizing: border-box;}

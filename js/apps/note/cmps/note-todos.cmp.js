@@ -3,9 +3,12 @@ export default {
     props: ['info'],
     template: `
         <div class="note-todos">
-            {{info.label}}
-            <ul v-for="todo in info.todos">
-                <li>{{todo.txt}}</li>
+            <h4>{{info.label}}</h4>
+            <ul>
+                <li v-for="todo in info.todos">
+                    {{todo.txt}}
+                    <span>x</span>
+                </li>
             </ul>
         </div>
     `,

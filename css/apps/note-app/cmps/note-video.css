@@ -1,0 +1,8 @@
+
+.note-video iframe {
+    display: block;
+    width: 250px;
+    height: 180px;
+    margin-top: 20px;
+    border: 2px solid black;
+}

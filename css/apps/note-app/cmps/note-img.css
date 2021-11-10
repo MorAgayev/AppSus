@@ -1,0 +1,8 @@
+
+.note-img img {
+    display: block;
+    width: 150px;
+    height: 100px;
+    margin-top: 20px;
+    border: 2px solid black;
+}
