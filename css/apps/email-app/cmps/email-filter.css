@@ -1,0 +1,22 @@
+.email-filter {
+    background-color:rgb(241, 241, 241);
+    padding: 20px;
+    border-radius: 5px;
+    grid-row: 2 span;
+}
+
+.email-filter ul {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.email-filter li {
+    cursor: pointer;
+    padding: 5px;
+    background-color: rgb(216, 216, 216);
+    border-radius: 5px;
+}

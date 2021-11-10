@@ -1,0 +1,23 @@
+.email-preview {
+    cursor: pointer;
+    border-bottom: 2.5px solid rgb(221, 220, 220);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 15px;
+}
+
+.email-preview:hover {
+    background-color: rgb(238, 238, 238);
+    box-shadow:  1px 1px 1px 1px #bfbfbf;
+}
+
+.read-email {
+    background-color: rgb(224, 222, 222);
+    font-weight: 400;
+}
+
+.unread-email {
+    background-color: rgb(255, 255, 255);
+    font-weight: 600;
+}

@@ -1,6 +1,13 @@
+@import './cmps/email-preview.css';
+@import './cmps/email-list.css';
+@import './cmps/email-filter.css';
+@import './cmps/email-search.css';
 .email-app {
-    background-color: #aaa;
     padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: auto 1fr;
+    gap: 30px;
     /* height: 100%; */
     
 }
