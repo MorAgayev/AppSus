@@ -8,8 +8,55 @@
     background-color: #aaa;
     padding: 20px;   
 }
+
 .note-app h1 {
     margin: 0 ;
+}
+
+.note-app form {
+    text-align: center;
+}
+
+.note-app fieldset {
+    width: 800px;
+    margin: auto;
+}
+
+.noteTxtInput {
+    width: 400px;
+    height: 30px;
+} 
+
+.fa-font {
+    margin-left: -90px;
+}
+
+.fa {
+    cursor: pointer;
+}
+
+.fa:hover {
+    opacity: 0.5;
+}
+
+#file-input {
+    display: none;
+}
+
+.note-app fieldset ul {
+    display: inline;
+}
+
+.note-app fieldset li {
+    width: 200px;
+    margin: auto;
+    margin-left: 160px;
+    margin-top: -6px;
+    list-style: none;
+}
+
+.toDoInput {
+    width: 120px;
 }
 
 .note-list {
