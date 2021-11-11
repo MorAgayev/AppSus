@@ -27,8 +27,12 @@
     height: 30px;
 } 
 
-.fa-font {
+/* .fa-font {
     margin-left: -90px;
+} */
+
+.fa-image {
+    margin-left: -70px;
 }
 
 .fa {
@@ -67,4 +71,16 @@
 
 .note-list li {
     list-style: none;
+}
+
+.blue {
+    color: blue;
+} 
+
+.img-promo {
+    display: block;
+    margin: 10px auto;
+    width: 250px;
+    height: 200px;
+    border: 1px solid black;
 }

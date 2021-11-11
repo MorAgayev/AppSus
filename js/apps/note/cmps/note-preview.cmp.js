@@ -4,18 +4,19 @@ import noteVideo from '../cmps/note-video.cmp.js';
 import noteTodos from '../cmps/note-todos.cmp.js';
 
 export default {
-    props: ['note'],
+    props: ['note', 'note.id'],
     template: `
-        <div class="note-preview">
+        <div class="note-preview" :style="note.style">
             <component  
                         :is="note.type" 
-                        :info="note.info"
-                        :style="note.style">
+                        :info="note.info">
             </component>
+            <section class="note-controls">
+                <button @click="$emit('removeNote', note.id)">X</button>
+                <!-- <button @click="$emit('removeNote', note.id)">X</button> -->
+            </section>
         </div>
     `,
-    computed: {
-    },
     components: {
         noteTxt,
         noteImg,

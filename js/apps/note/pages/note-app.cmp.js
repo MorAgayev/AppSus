@@ -1,4 +1,4 @@
-import { utilService } from '../../../services/util-service.js';
+// import { utilService } from '../../../services/util-service.js';
 import { noteService } from '../services/note-service.js';
 import notePreview from '../cmps/note-preview.cmp.js';
 
@@ -8,43 +8,45 @@ export default {
             <h1>Note App</h1>
 
             <form>
-                <!-- <input v-model="note.info.txt" type="text" placeholder="Add a Note..." ref="noteInput"
-                @keyup.enter="createNote"> -->
-                
                 <fieldset>
                     <legend>Add Your Note</legend>
 
-                    <input v-model="note.info.txt" type="text" placeholder="Type here..." ref="txtInput" class="noteTxtInput">
-                    
-                    <i class="fa fa-font" title="Write Text"></i>
+                    <template>
+                        <input @keydown.enter.prevent @blur="addNote('note-txt', $event)" type="text" placeholder="What's on your mind?" ref="txtInput" class="noteTxtInput">
+                        <!-- <i class="fa fa-font" title="Write Text" @click="addNote('note-txt', $event)"></i> -->
+                    </template>
 
                     <template class="image-upload">
                         <label for="file-input">
-                            <h2 class="fa fa-image" title="Add Image"></h2>
+                            <h2 class="fa fa-image" :class="{blue: isImgUploaded}" title="Add Image"></h2>
                         </label>
-                        <input @change="addImg" type="file" id="file-input" ref="noteInput">
+                        <input @change="addNote('note-img', $event)" type="file" id="file-input" ref="imgInput">
+                    </template>
+
+                    <template class="video-upload">
+                        <i class="fa fa-youtube" @click="searchOnYoutube" title="Search on Youtube" :class="{blue: isVideoUploaded}"></i>
                     </template>
 
                     <template class="toDoListCreation">
-                        <i class="fa fa-list" title="Create ToDo List" @click="openToDoList"></i>
-
+                        <i class="fa fa-list" title="Create To-Do List" @click="openToDoList" :class="{blue: isToDoListChosen}"></i>
                         <ul v-if="isToDoListChosen">
                             <li v-for="count in toDoItemsCount">
-                                <input type="text" placeholder="To Do..." class="toDoInput"> 
-                                <span class="fa fa-plus" @click="addToDoItem"></span>
+                                <span>To Do</span>
+                                <input @keydown.enter.prevent @input="typeToDo" @click="resetLettersCount" @blur="addToDoItem" type="text" placeholder="To Do..." class="toDoInput" ref="todoInput"> 
                             </li>
                         </ul>
                     </template>
-                    
+
+                    <img v-if="isImgUploaded" :src="note.info.url" class="img-promo">
+
+                    <legend><button @click="saveNote">ADD</button></legend>
                 </fieldset>
-
-
-                <button>ADD</button>
             </form>
 
             <ul class="note-list">
                 <li v-for="note in notes" :key="note.id" class="note-preview-container">
-                    <note-preview :note="note" @click.native="select(note)" />
+                    <note-preview :note="note" @removeNote="removeNote"/>
+                    <!-- @click.native="select(note)" -->
                     <!-- <router-link :to="'/note/'+note.id" class="details-link">Details</router-link> -->
                 </li>
             </ul>
@@ -54,7 +56,6 @@ export default {
         return {
             notes: null,
             note: {
-                id: utilService.makeId(),
                 type: '',
                 isPinned: false,
                 info: {
@@ -65,29 +66,91 @@ export default {
                     padding: '10px'
                 }
             },
+            isImgUploaded: false,
+            isVideoUploaded: false,
             isToDoListChosen: false,
-            toDoItemsCount: 0
+            todos: [],
+            toDoItemsCount: 0,
+            inputLettersCount: 0
         }
     },
     methods: {
-        addImg(ev) {
-            // this.note.info.txt = ev.target.value;
-            // ev.target.value = '';
-            // this.note.type = 'note-txt'
+        log(parameter) {
+            console.log(parameter);
+        },
+        addNote(noteType, ev) {
+            // this.note.type = noteType;
+            if (noteType === 'note-txt') this.addTxt(noteType, ev);
+            if (noteType === 'note-img') this.addImg(noteType, ev);
+        },
+        addTxt(noteType, ev) {
+            this.note.type = noteType;
+            this.note.info.txt = ev.target.value;
+        },
+        addImg(noteType, ev) {
+            this.isImgUploaded = true;
             const file = ev.target.files[0];
             this.note.info.url = URL.createObjectURL(file);
+            this.note.type = noteType;
+        },
+        searchOnYoutube() {
+            this.isVideoUploaded = true;
+            const searchVal = this.note.info.txt;
+            noteService.getYoutubeVid(searchVal)
+                .then(this.saveVideo)
+        },
+        saveVideo(videos) {
+            console.log('videos:', videos);
+            var firstVideoId = videos[0].id.videoId;
+            console.log(firstVideoId);
+            this.note.info.url = `https://www.youtube.com/embed/${firstVideoId}`;
+            this.note.type = 'note-video';
+            this.saveNote();
+        },
+        onSelectedVid(id) {
+            document.querySelector('iframe').src = `https://www.youtube.com/embed/${id}`;
         },
         openToDoList() {
             this.isToDoListChosen = true;
             this.toDoItemsCount++;
         },
-        addToDoItem() {
-            this.toDoItemsCount++;
+        typeToDo() {
+            this.inputLettersCount++
+            if (this.inputLettersCount === 1) this.toDoItemsCount++;
+        },
+        addToDoItem(ev) {
+            this.note.type = 'note-todos';
+            this.todos.push({ txt: ev.target.value })
+            this.note.info.todos = this.todos;
+        },
+        resetLettersCount() {
+            this.inputLettersCount = 0;
+        },
+        saveNote() {
+            this.$refs.txtInput.value = '';
+            this.isImgUploaded = false;
+            this.isVideoUploaded = false;
+            this.isToDoListChosen = false;
+            this.toDoItemsCount = 0;
+            this.todos = [];
+            noteService.postNote(this.note)
+                .then(this.loadNotes)
+        },
+        saveNotes() {
+            noteService.updateNotes(this.notes)
+            // .then(this.loadNotes)
+        },
+        removeNote(noteId) {
+            noteService.removeNote(noteId)
+                .then(this.loadNotes)
+        },
+        loadNotes() {
+            noteService.queryNotes()
+                .then(notes => this.notes = notes)
         }
     },
     created() {
-        noteService.queryNotes()
-            .then(notes => this.notes = notes)
+        this.loadNotes();
     },
     mounted() {
         this.$refs.txtInput.focus();

@@ -1,12 +1,14 @@
 import { utilService } from '../../../services/util-service.js';
 import { storageService } from '../../../services/async-storage-service.js';
 
-
 const NOTES_KEY = 'notes';
 
-
 export const noteService = {
-    queryNotes
+    queryNotes,
+    postNote,
+    // postNotes,
+    removeNote,
+    getYoutubeVid
 };
 
 function queryNotes() {
@@ -21,6 +23,30 @@ function _createNotes() {
         utilService.saveToStorage(NOTES_KEY, notes);
     }
     return notes;
+}
+
+function postNote(note) {
+    return storageService.post(NOTES_KEY, note)
+}
+
+function removeNote(noteId) {
+    return storageService.remove(NOTES_KEY, noteId)
+}
+
+// function postNotes(notes) {
+//     return storageService.postMany(NOTES_KEY, notes)
+// }
+
+
+const API_KEY = 'AIzaSyC2naoqUzLAdkFOCeIib38MU8fsFykr3og';
+function getYoutubeVid(searchVal) {
+    var vids = {}
+    return axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${API_KEY}&q=${searchVal}`)
+        .then(res => {
+            console.log('getting data from server');
+            vids[searchVal] = res.data.items
+            return res.data.items;
+        })
 }
 
 const gNotes = [
@@ -54,8 +80,8 @@ const gNotes = [
         type: "note-video",
         isPinned: false,
         info: {
-            txt: "My Song!",
-            url: "https://www.youtube.com/embed/tgbNymZ7vqY"
+            txt: "First Youtube Video Ever",
+            url: "https://www.youtube.com/embed/jNQXAC9IVRw"
         },
         style: {
             backgroundColor: "lightsalmon",
