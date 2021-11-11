@@ -1,7 +1,7 @@
 @import './cmp/header.cmp.css';
 @import './cmp/footer.cmp.css';
 @import './apps/email-app/email-app.css';
-@import './apps/email-app/email-detail.css';
+@import './apps/email-app/email-details.css';
 @import './apps/note-app/note-app.css';
 @import './cmp/home-page.css';
 

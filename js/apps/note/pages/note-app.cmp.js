@@ -6,9 +6,42 @@ export default {
     template: `
         <section class="note-app">
             <h1>Note App</h1>
-            <label>
-                <input v-model="note.info.txt" type="text" placeholder="What's on your mind..." ref="noteInput">
-            </label>
+
+            <form>
+                <!-- <input v-model="note.info.txt" type="text" placeholder="Add a Note..." ref="noteInput"
+                @keyup.enter="createNote"> -->
+                
+                <fieldset>
+                    <legend>Add Your Note</legend>
+
+                    <input v-model="note.info.txt" type="text" placeholder="Type here..." ref="txtInput" class="noteTxtInput">
+                    
+                    <i class="fa fa-font" title="Write Text"></i>
+
+                    <template class="image-upload">
+                        <label for="file-input">
+                            <h2 class="fa fa-image" title="Add Image"></h2>
+                        </label>
+                        <input @change="addImg" type="file" id="file-input" ref="noteInput">
+                    </template>
+
+                    <template class="toDoListCreation">
+                        <i class="fa fa-list" title="Create ToDo List" @click="openToDoList"></i>
+
+                        <ul v-if="isToDoListChosen">
+                            <li v-for="count in toDoItemsCount">
+                                <input type="text" placeholder="To Do..." class="toDoInput"> 
+                                <span class="fa fa-plus" @click="addToDoItem"></span>
+                            </li>
+                        </ul>
+                    </template>
+                    
+                </fieldset>
+
+
+                <button>ADD</button>
+            </form>
+
             <ul class="note-list">
                 <li v-for="note in notes" :key="note.id" class="note-preview-container">
                     <note-preview :note="note" @click.native="select(note)" />
@@ -31,12 +64,33 @@ export default {
                     backgroundColor: '',
                     padding: '10px'
                 }
-            }
+            },
+            isToDoListChosen: false,
+            toDoItemsCount: 0
+        }
+    },
+    methods: {
+        addImg(ev) {
+            // this.note.info.txt = ev.target.value;
+            // ev.target.value = '';
+            // this.note.type = 'note-txt'
+            const file = ev.target.files[0];
+            this.note.info.url = URL.createObjectURL(file);
+        },
+        openToDoList() {
+            this.isToDoListChosen = true;
+            this.toDoItemsCount++;
+        },
+        addToDoItem() {
+            this.toDoItemsCount++;
         }
     },
     created() {
         noteService.queryNotes()
             .then(notes => this.notes = notes)
+    },
+    mounted() {
+        this.$refs.txtInput.focus();
     },
     components: {
         notePreview
