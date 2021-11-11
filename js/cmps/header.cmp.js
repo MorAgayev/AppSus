@@ -6,7 +6,7 @@ export default {
                         <h1>AppSus</h1>
                     </div>
                     <nav>
-                        <img src="../img/main-img/nav-img.png" alt="" srcset=""> 
+                        <img src="./img/main-img/nav-img.png" alt="" srcset=""> 
                     </nav>
                 </div>
             </header>

@@ -1,3 +1,5 @@
+// import { eventBus } from "../../../services/event-bus.js"
+
 export default {
     template: `
          <section class="new-email">
@@ -9,8 +11,9 @@ export default {
                 <input v-model="email" type="email" placeholder="Email">
                 <input v-model="name" type="text" placeholder="Name">
                 <input v-model="subject" type="text" placeholder="Subject">
-                <textarea v-model="body" ></textarea>
-                <button>send</button>
+                <textarea v-model="body"></textarea>
+                <button>Send</button>
+                <!-- <button @click="toggleNewEmailModal">Send</button> -->
             </form>
         </section>
     `, 
@@ -35,9 +38,20 @@ export default {
                 body: this.body,
                 sendAt: new Date
             }
+            // console.log('emailDetails', emailDetails);
             this.$emit('sendEmail', emailDetails)
-
-        }
+            // userMsg('success', 'Email Sent succesfully')
+        },
+        toggleNewEmailModal() {
+            this.$emit('toggleNewEmailModal')
+        } 
+        // userMsg(type, txt) {
+        //     const msg = {
+        //         txt,
+        //         type
+        //     }
+        //     eventBus.$emit('showMsg', msg);
+        // },
     }
 }
 
