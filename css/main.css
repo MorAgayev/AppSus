@@ -18,3 +18,8 @@ button {
 .main-layout {
     margin: 0 20px;
 }
+
+/* USER MSG */
+.success {
+    background-color: green;
+}

@@ -1,3 +1,4 @@
+// import { emailService } from '../service/email.service.js'
 export default {
     props:['email'], 
     template: `
@@ -12,5 +13,25 @@ export default {
                 <p>{{email.body}}</p>
             </div>
         </article>
-    `
+    `, 
+    // watch: {
+    //     heandler() {
+           
+        //     emailService.getById(email.id)
+        //     .then(email => {
+        //         if (email) {
+        //             email.isRead = !email.isRead
+        //             emailService.putEmail(email)
+        //         } 
+        //         else {
+        //             emailService.getSentById(email.id)
+        //             .then(email => {
+        //                 email.isRead = !email.isRead
+        //                 emailService.putSent(email)
+        //             })
+        //         } 
+        //     })
+        // }
+        
+    // }
 }
