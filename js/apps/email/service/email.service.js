@@ -3,8 +3,8 @@ import { utilService } from '../../../services/util-service.js'
 
 const EMAILS_KEY = 'Emails';
 const SEND_EMAIL_KEY = 'SendEmails'
-const gEmails = createEmails();
-
+// const gEmails = createEmails();
+// const gNewEmails;
 export const emailService = {
     createEmails, 
     createEmail, 
@@ -12,14 +12,23 @@ export const emailService = {
     getById, 
     removeEmail, 
     setToRead, 
-    addToSendsEmails
+    addToSendsEmails, 
+    querySent, 
+    getSentById, 
+    putEmail
+}
+
+function putEmail(updatedEntity) {
+    return storageService.put(entityType, updatedEntity) 
 }
 
 function addToSendsEmails(email) {
-    // if()
-    // createEmail(name,subject, body)
-    // console.log(email);
-    // storageService.post(SEND_EMAIL_KEY, email)
+    const newEmail = createEmail(email.name,email.subject,email.body);
+    storageService.query(SEND_EMAIL_KEY)
+        .then(newEmails => {
+            newEmails.unshift(newEmail)
+            storageService.post(SEND_EMAIL_KEY, newEmail)
+        })
 }
 
 function setToRead(id) {
@@ -35,8 +44,16 @@ function removeEmail(id) {
     return storageService.remove(EMAILS_KEY, id)
 }
 
+function getSentById(id) {
+    return storageService.get(SEND_EMAIL_KEY, id);
+}
+
 function getById(id) {
     return storageService.get(EMAILS_KEY, id);
+}
+
+function querySent() {
+    return storageService.query(SEND_EMAIL_KEY);
 }
 
 function queryEmails() {
@@ -62,6 +79,7 @@ function createEmail(name,subject, body) {
         subject,
         body,
         isRead: false,
+        isStaring: false,
         sentAt : new Date ,
         to: 'momo@momo.com'
     }

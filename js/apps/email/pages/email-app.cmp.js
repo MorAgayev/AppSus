@@ -8,9 +8,9 @@ export default {
     template: `
         <section class="email-app">
             <div class="main-grid">
-                <email-filter @openNewEmailModal="toggleNewEmailModal" />
-                <email-search />
-                <email-list @showDetails="showEmailDetails" /> 
+                <email-filter @openNewEmailModal="toggleNewEmailModal" @showSent="showSentEmails" />
+                <email-search @filterBy="filterBySearch" />
+                <email-list @showDetails="showEmailDetails" :emails="emailsToShow" /> 
             </div>
             <email-new v-if="isNewEmail" @closeModal="toggleNewEmailModal" @sendEmail="sendEmail"/>
           
@@ -20,20 +20,27 @@ export default {
         return {
             emails: null, 
             isNewEmail: false,
+            isSentEmail: false,
+            filterBy: {
+                filterSearch: null, 
+                filterIsRead: null 
+            } 
         }
     }, 
     created() {
-        emailService.queryEmails()
-            .then(emails => this.emails = emails)  
+        this.showEmails() 
     }, 
     components: {
         emailList, 
         emailFilter, 
         emailSearch, 
         emailNew
-        // emailDetails
     }, 
     methods: {
+        showEmails() {
+            emailService.queryEmails()
+            .then(emails => this.emails = emails)  
+        },
         showEmailDetails(emailId) {
             emailService.getById(emailId)
                 .then(email=> this.emailToShow = email)
@@ -42,8 +49,31 @@ export default {
             this.isNewEmail = !this.isNewEmail
         }, 
         sendEmail(email) {
-            // console.log(email);
             emailService.addToSendsEmails(email)
+        }, 
+        filterBySearch(val) {
+            this.filterBy.filterSearch = val
+        },
+        showSentEmails() {
+            this.isSentEmail = !this.isSentEmail; 
+            if(this.isSentEmail) {
+                emailService.querySent()
+                .then(emails => {
+                    this.emails = emails})
+            } else {
+                this.showEmails()
+            }
+        }
+    }, 
+    computed: {
+        emailsToShow() {
+            if (!this.filterBy.filterSearch) return this.emails;
+            const searchStr = this.filterBy.filterSearch.toLowerCase();
+            const emailsToShow = this.emails.filter(email => {
+                       return email.name.toLowerCase().includes(searchStr) ||
+                       email.subject.toLowerCase().includes(searchStr) 
+            });
+            return emailsToShow;
         }
     }
 }
