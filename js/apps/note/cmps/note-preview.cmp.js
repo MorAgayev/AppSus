@@ -6,7 +6,7 @@ import noteTodos from '../cmps/note-todos.cmp.js';
 export default {
     props: ['note', 'note.id'],
     template: `
-        <div class="note-preview" :style="note.style">
+        <div class="note-preview" :class="openingStyle" :style="note.style">
             <component  
                         :is="note.type" 
                         :info="note.info">
@@ -17,6 +17,19 @@ export default {
             </section>
         </div>
     `,
+    data() {
+        return {
+            isNew: true
+        }
+    },
+    created() {
+        setTimeout(() => { this.isNew = false }, 1000);
+    },
+    computed: {
+        openingStyle() {
+            return { shadow: this.isNew }
+        }
+    },
     components: {
         noteTxt,
         noteImg,
