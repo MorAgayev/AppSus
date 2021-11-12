@@ -1,38 +1,37 @@
 import emailPreview from "./email-preview.cmp.js"
-import { emailService } from "../service/email.service.js"
+// import { emailService } from "../service/email.service.js"
 
 export default {
     props: ['emails'],
+
+    name: 'emails-list',
+
     template: `
         <section v-if="emails" class="email-list">
             <ul>
                 <li v-for="email in emails" :key="email.id">
-                   <email-preview :email="email" @changeStaring="changeStaring"  />
+                   <email-preview :email="email" @setIsRead="changeRead" @changeStared="changeStared" @removeEmail="removeEmail" />
                 </li>
             </ul>
         </section>
     `,
+
     components: {
         emailPreview
     },
+
     methods: {
-        changeStaring(emailId) {
-            this.$emit('changeStaring', emailId)
-            // emailService.getById(emailId)
-            //     .then(email => {
-            //         if (email) {
-            //             email.isStar = !email.isStar
-            //             emailService.putEmail(email)
-            //         } 
-            //         else {
-            //             emailService.getSentById(emailId)
-            //             .then(email => {
-            //                 email.isStar = !email.isStar
-            //                 emailService.putSent(email)
-            //             })
-            //         } 
-            //     })
+        changeRead(id) {
+            this.$emit('changeRead', id)
         }, 
+
+        changeStared(emailId) {
+            this.$emit('changeStared', emailId)
+        }, 
+        
+        removeEmail(id) {
+            this.$emit('removeEmail', id)
+        }
         
     }
 }

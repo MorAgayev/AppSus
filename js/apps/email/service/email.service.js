@@ -6,93 +6,76 @@ import {
 } from '../../../services/util-service.js'
 
 const EMAILS_KEY = 'Emails';
-const SEND_EMAIL_KEY = 'SendEmails'
 createEmails();
-// var gUnread;
-// const gNewEmails;
+
 export const emailService = {
+    queryAllEmails,
+    UpdateCriteria,
+    addEmail,
     createEmails,
     createEmail,
-    queryEmails,
     getById,
     removeEmail,
-    setToRead,
-    addToEmails,
-    querySent,
-    getSentById,
+    removeAt,
     putEmail,
-    putSent,
-    putEmails,
-    setUnread
 }
 
-function setUnread() {
-    return this.queryEmails()
-        .then(emails => {
-            emails.forEach(email => {
-                if (email.isRead) {
-                    emails.length--
-                }
-            })
-            console.log(emails.length);
-            return emails.length
-        })
+const gCriteria = {
+    status: 'inbox',
+    isRead: false, // (optional property, if missing: show all)
+    isStared: false, // (optional property, if missing: show all)
+    // subject: '', // no need to support complex text search
+    // lables: ['important', 'romantic'] // has any of the labels
 }
 
-function putEmails(emailType, updatedEntity) {
-    return storageService.put(emailType, updatedEntity)
-}
-
-function putEmail(updatedEntity) {
-    return storageService.put(EMAILS_KEY, updatedEntity)
-}
-
-function putSent(updatedEntity) {
-    return storageService.put(SEND_EMAIL_KEY, updatedEntity)
-}
-
-function addToEmails(email) {
-    const newEmail = createEmail(email.name, email.subject, email.body, email.email);
-    storageService.query(SEND_EMAIL_KEY)
-        .then(newEmails => {
-            newEmails.unshift(newEmail)
-            storageService.post(SEND_EMAIL_KEY, newEmail)
-        })
-    storageService.query(EMAILS_KEY)
-        .then(newEmails => {
-            newEmails.unshift(newEmail)
-            storageService.post(EMAILS_KEY, newEmail)
-        })
-}
-
-function setToRead(id) {
+function removeAt(id) {
     getById(id)
-        .then(email => {
-            console.log('email', email);
-            email.isRead = !email.isRead;
-            storageService.put(EMAILS_KEY, email)
-        })
-    // setUnread()
+        .then(email => _updateEmailStatus(email, 'trash'))
+        .then(email => putEmail(email))
+
+}
+
+function _updateEmailStatus(email, status) {
+    email.status = status
+    return email
 }
 
 function removeEmail(id) {
     return storageService.remove(EMAILS_KEY, id)
 }
 
-function getSentById(id) {
-    return storageService.get(SEND_EMAIL_KEY, id);
+function putEmail(updatedEntity) {
+    return storageService.put(EMAILS_KEY, updatedEntity)
 }
 
 function getById(id) {
     return storageService.get(EMAILS_KEY, id);
 }
 
-function querySent() {
-    return storageService.query(SEND_EMAIL_KEY);
+function addEmail(email) {
+    const newEmail = createEmail(email.name, email.subject, email.body, email.status, email.to)
+    return storageService.post(EMAILS_KEY, newEmail)
 }
 
-function queryEmails() {
-    return storageService.query(EMAILS_KEY);
+function UpdateCriteria(type, val) {
+    for (var key in gCriteria) {
+        if (key === type) gCriteria[type] = val
+    }
+}
+
+function queryAllEmails() {
+    return storageService.query(EMAILS_KEY)
+        .then(emails => {
+            return emails.filter(email => {
+                for (var key in gCriteria) {
+                    if ((!email[key] || email[key] != gCriteria[key])) return false
+                    if (gCriteria.isRead && gCriteria.isRead != email.isRead) return false
+                    if (gCriteria.isStared === email.isStared) return true
+                    else return true
+                }
+            })
+
+        })
 }
 
 function createEmails() {
@@ -107,16 +90,17 @@ function createEmails() {
     return emails
 }
 
-function createEmail(name, subject, body, to = 'momo@momo.com') {
+function createEmail(name, subject, body, status = 'inbox', to = 'momo@momo.com') {
     return {
         id: _makeEmailId(),
         name,
         subject,
         body,
         isRead: false,
-        isStar: false,
+        isStared: false,
         sentAt: Date.now(),
-        to
+        to,
+        status
     }
 }
 
@@ -128,25 +112,3 @@ function _makeEmailId(length = 5) {
     }
     return text;
 }
-
-// const loggedinUser = {
-//     email: 'user@appsus.com',
-//     fullname: 'Mahatma Appsus'
-// }
-
-// const email = {
-//     id: 'e101',
-//     subject: 'Miss you!',
-//     body: 'Would love to catch up sometimes',
-//     isRead: false,
-//     sentAt : 1551133930594,
-//     to: 'momo@momo.com'
-// }
-//filter
-// const criteria = {
-//     status: 'inbox/sent/trash/draft',
-//     txt: 'puki', // no need to support complex text search
-//     isRead: true, // (optional property, if missing: show all)
-//     isStared: true, // (optional property, if missing: show all)
-//     lables: ['important', 'romantic'] // has any of the labels
-//    }

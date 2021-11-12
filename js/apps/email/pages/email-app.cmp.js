@@ -1,112 +1,136 @@
-import {
-    emailService
-} from "../service/email.service.js"
+import { emailService } from "../service/email.service.js"
 import emailList from "../cmps/email-list.cmp.js"
-import emailFilter from "../cmps/email--filter.cmp.js"
+import emailFilter from "../cmps/email-filter.cmp.js"
 import emailSearch from "../cmps/email-search.cmp.js"
 import emailNew from "../cmps/email-new.cmp.js"
 // import userMsg from "../../../cmps/user-msg.cmp.js"
 export default {
+    name: 'email-app',
+
     template: `
         <section class="email-app">
             <div class="main-grid">
-                <email-filter :unread="unread" @toggleNewEmailModal="toggleNewEmailModal" @filterBy="setFilterBy" />
-                <email-search @filterBy="filterBySearch" @sort="setSort" />
-                <email-list :emails="emailsToShow" @changeStaring="changeStaring"/> 
+                <email-filter :unreadEmails="unreadEmails" @filterd="filtering" @OpenNewEmail="toggleNewEmail"/>
+                <email-search @filterBy='setSearch' @sort="setSort" @setIsRead="setIsRead" />
+                <email-list :emails="emailsToShow" @changeRead="changeRead" @changeStared="changeStared" @removeEmail="removeEmail"/> 
             </div>
-            <email-new v-if="isNewEmail" @closeModal="toggleNewEmailModal" @sendEmail="sendEmail" @toggleNewEmailModal="toggleNewEmailModal"/>
+            <email-new v-if="isNewEmail" @sendEmail="addEmail" @closeModal="addEmail" />
           
         </section>
     `,
+
     data() {
-        return {
+        return {  
             emails: null,
             isNewEmail: false,
-            isSentEmail: false,
             filterSearch: null,
-            filterBy: null,
-            sortBy: null,
-            unread: undefined
+            unreadEmails: 0
         }
     },
     created() {
-        this.showEmails()
-        this.setRead()
+        this.loadEmails()
     },
+
     components: {
         emailList,
         emailFilter,
         emailSearch,
         emailNew
     },
+
     methods: {
-        showEmails() {
-           return emailService.queryEmails()
+        loadEmails() {
+           return emailService.queryAllEmails()
                 .then(emails => this.emails = emails)
+                .then(this.setUnreadEmails)
         },
-        showSentEmails() {
-            emailService.querySent()
-                .then(emails => {this.emails = emails})
+        
+        filtering(val) {
+            emailService.UpdateCriteria('status', val)
+            this.loadEmails()
         },
-        showReadEmails() {
-            this.emails = this.emails.filter(email=> email.isRead === true)
-        },
-        showUnreadEmails() {
-            this.emails = this.emails.filter(email=> email.isRead === false)
-        },
-        showStaredEmails() {
-            this.emails = this.emails.filter(email=> email.isStar === true)
-        },
-        sendEmail(email) {
-            emailService.addToEmails(email)
-            this.toggleNewEmailModal()
-            this.setRead() 
-        },
-        toggleNewEmailModal() {
+
+        toggleNewEmail() {
             this.isNewEmail = !this.isNewEmail
-        },
-        filterBySearch(val) {
+        }, 
+
+        addEmail(email) {
+            emailService.addEmail(email)
+                .then(this.loadEmails)
+            this.toggleNewEmail()
+        }, 
+
+        setSearch(val) {
             this.filterSearch = val
         },
-        changeStaring(emailId) {
-            emailService.getById(emailId)
-                .then(email => {
-                    if (email) {
-                        email.isStar = !email.isStar
-                        emailService.putEmail(email)
-                    } else {
-                        emailService.getSentById(emailId)
-                            .then(email => {
-                                email.isStar = !email.isStar
-                                emailService.putSent(email)
-                            })
-                    }
-                })
-        },
-        setFilterBy(type) {
-            if(type === 'inbux') this.showEmails()
-            if(type === 'sent') this.showSentEmails()
-            if(type === 'read') this.showReadEmails()
-            if(type === 'unread') this.showUnreadEmails()
-            if(type === 'stared') this.showStaredEmails()
-        },
-        setRead() {
-            emailService.setUnread()
-                .then(num=> this.unread = num)
-        },
+
         setSort(val) {
-            this.sortBy = val
-            this.sorting()
-        }, 
-        sorting() {
-            if(!this.sortBy) return this.emails;
-            if(this.sortBy === 'SUBJECT') {
+            if(!val) return this.emails;
+            if(val === 'SUBJECT') {
                 this.emails.sort((a , b) => {return (a.subject > b.subject) ? 1 : -1})
             } else {
                 this.emails.sort((a , b) => {return (a.sentAt > b.sentAt) ? 1 : -1})
             }
+        }, 
+
+        setIsRead(val) {
+            console.log(val);
+            if(val === 'READ') emailService.UpdateCriteria('isRead', false)
+            if(val === 'UNREAD') emailService.UpdateCriteria('isRead', true)
+            this.loadEmails()
+        }, 
+
+        setUnreadEmails() {
+            let count = 0
+            emailService.queryAllEmails()
+                .then(emails => {
+                    emails.forEach(email => {
+                        if(email.status === 'inbox') {
+                            if (!email.isRead)
+                            count++
+                        }
+                    });
+                    this.unreadEmails = count
+                })
+            // this.emails.forEach(email => {
+            //     if(email.status === 'inbox') {
+            //         if (!email.isRead)
+            //         count++
+            //     }
+            // });
+            // this.unreadEmails = count
+        },
+
+        changeRead(id) {
+            emailService.getById(id)
+                .then(email=> {
+                    email.isRead = !email.isRead
+                    return emailService.putEmail(email)
+                })
+                .then(this.loadEmails)
+            this.setUnreadEmails()
+        }, 
+
+        changeStared(id) {
+            emailService.getById(id)
+            .then(email=> {
+                email.isStared = !email.isStared
+                return emailService.putEmail(email)
+            })
+            .then(this.loadEmails)
+        }, 
+
+        removeEmail(id) {
+            emailService.getById(id)
+                .then(email=> {
+                    if(email.status === 'trash') emailService.removeEmail(id)
+                    else emailService.removeAt(id)
+                })
+                .then(this.loadEmails)
+
         }
     },
+    
     computed: {
         emailsToShow() {
             if(this.isSentEmail)  this.showSentEmails() 
@@ -119,18 +143,5 @@ export default {
             return emailsToShow;
         },
         
-    }, 
-    watch: {
-        heandle() {
-            let count =5;
-            this.showEmails()
-                .then(emails =>{
-                        emails.forEach(email => {if(!email.isRead) count++});
-                    })
-            this.unread = count;
-        }
     }
 }
-
-
-// add <user-msg />

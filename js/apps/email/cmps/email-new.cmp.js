@@ -1,6 +1,8 @@
 // import { eventBus } from "../../../services/event-bus.js"
 
 export default {
+    name:'email-new',
+
     template: `
          <section class="new-email">
             <div class="new-title">
@@ -8,51 +10,63 @@ export default {
                 <button @click="closeModal">X</button>
             </div>
             <form @submit.prevent="sendEmail" class="new-form">
-                <input v-model="email" type="email" placeholder="Email">
+                <input v-model="to" type="email" placeholder="Email">
                 <input v-model="name" type="text" placeholder="Name">
                 <input v-model="subject" type="text" placeholder="Subject">
                 <textarea v-model="body"></textarea>
                 <button>Send</button>
-                <!-- <button @click="toggleNewEmailModal">Send</button> -->
             </form>
         </section>
     `, 
+    
+    created() {
+        let draftInterval = setInterval(() => this.saveDraft(), 5000)
+    },
+
+    destroyed() {
+        clearInterval(this.draftInterval)
+    },
+
     data() {
         return {
-            date: new Date,
-            email: '', 
+            to: '', 
             name: '',
             subject: '',
             body: ''
         }
     }, 
+
     methods: {
-        closeModal() {
-            this.$emit('closeModal')
-        }, 
-        sendEmail() {
-            const emailDetails = {
+        saveDraft() {
+            console.log('saved draft');
+            return  {
+                status: 'draft',
                 email: this.email, 
                 name: this.name,
                 subject: this.subject,
                 body: this.body,
-                sendAt: new Date
+                sendAt: Date.now()
             }
-            // console.log('emailDetails', emailDetails);
+        },
+
+        closeModal() {
+            clearInterval(this.draftInterval)
+            const email = this.saveDraft()
+            this.$emit('closeModal', email)
+        }, 
+
+        sendEmail() {
+            const emailDetails = {
+                status: 'sent',
+                email: this.email, 
+                name: this.name,
+                subject: this.subject,
+                body: this.body,
+                sendAt: Date.now()
+            }
             this.$emit('sendEmail', emailDetails)
             // userMsg('success', 'Email Sent succesfully')
-        },
-        toggleNewEmailModal() {
-            this.$emit('toggleNewEmailModal')
-        } 
-        // userMsg(type, txt) {
-        //     const msg = {
-        //         txt,
-        //         type
-        //     }
-        //     eventBus.$emit('showMsg', msg);
-        // },
+        }
+
     }
 }
-
-//createEmail(name,subject, body)
