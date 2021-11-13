@@ -1,8 +1,13 @@
 
+.note-img {
+    grid-row: span 3;
+}
+
 .note-img img {
     display: block;
-    width: 150px;
-    height: 100px;
-    margin-top: 20px;
+    width: 220px;
+    height: 140px;
+    margin: 0;
     border: 2px solid black;
+    object-fit: cover;
 }

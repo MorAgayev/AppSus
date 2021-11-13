@@ -16,4 +16,13 @@
 .note-todos ul li {
     display: flex;
     justify-content: space-between;
+    gap: 30px;
+}
+
+.note-todos span {
+    cursor: pointer;
+}
+
+.note-todos span:hover {
+    opacity: 0.3;
 }

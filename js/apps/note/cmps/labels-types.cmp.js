@@ -2,8 +2,20 @@
 export default {
     props: ['type'],
     template: `
-        <h3 @click="$emit('labelClicked', type)" class="label">{{labelsToShow}}</h3>
+        <h3 @click="filterByLabel" class="label" :class="selectedColor">{{labelsToShow}}</h3>
     `,
+    data() {
+        return {
+            isSelected: false
+        }
+    },
+    methods: {
+        filterByLabel() {
+            this.$emit('labelClicked', this.type)
+            this.isSelected = true;
+            setTimeout(() => { this.isSelected = false }, 1000);
+        }
+    },
     computed: {
         labelsToShow() {
             const strLength = this.type.length;
@@ -18,6 +30,9 @@ export default {
             }
             type = type.toUpperCase();
             return type;
+        },
+        selectedColor() {
+            return { selected: this.isSelected }
         }
     }
 }

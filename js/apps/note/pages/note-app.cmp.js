@@ -7,8 +7,6 @@ import pinnedNotes from '../cmps/pinned-notes.cmp.js';
 export default {
     template: `
         <section class="note-app">
-            <h1>Note App</h1>
-
             <form>
                 <fieldset>
                     <legend>Add Your Note</legend>
@@ -22,19 +20,19 @@ export default {
                     <!-- Note Img -->
                     <template class="image-upload">
                         <label for="file-input">
-                            <h2 class="fa fa-image" :class="{blue: isImgUploaded}" title="Add Image"></h2>
+                            <h2 class="fa fa-image fa-2x" :class="{blue: isImgUploaded}" title="Add Image"></h2>
                         </label>
                         <input @change="addNote('note-img', $event)" type="file" id="file-input" ref="imgInput">
                     </template>
 
                     <!-- Note Video -->
                     <template class="video-upload">
-                        <i class="fa fa-youtube" @click="searchOnYoutube" title="Search on Youtube" :class="{blue: isVideoUploaded}"></i>
+                        <i class="fa fa-youtube fa-2x" @click="searchOnYoutube" title="Search on Youtube" :class="{blue: isVideoUploaded}"></i>
                     </template>
 
                     <!-- Note Todos -->
                     <template class="toDoListCreation">
-                        <i class="fa fa-list" title="Create To-Do List" @click="openToDoList" :class="{blue: isToDoListChosen}"></i>
+                        <i class="fa fa-list fa-2x" title="Create To-Do List" @click="openToDoList" :class="{blue: isToDoListChosen}"></i>
                         <ul v-if="isToDoListChosen">
                             <li v-for="count in toDoItemsCount">
                                 <span>To Do</span>
@@ -47,7 +45,7 @@ export default {
                     <img v-if="isImgUploaded" :src="note.info.url" class="img-promo">
 
                     <!-- Adding Note Button -->
-                    <legend><button @click="saveNote" :class="addBtnStyle">ADD</button></legend>
+                    <legend><button @click="saveNote" class="add-btn">ADD</button></legend>
                 </fieldset>
             </form>
 
@@ -57,7 +55,7 @@ export default {
             
             <main>
                 <ul class="note-list">
-                    <li v-for="note in notesToShow" :key="note.id" class="note-preview-container">
+                    <li v-for="note in notesToShow" :key="note.id">
                         <note-preview :note="note" @pinNote="pinNote" @removeNote="removeNote" @duplicateNote="duplicateNote" @setColor="setColor" @removeTodo="removeTodo" />
                     </li>
                 </ul>
@@ -207,11 +205,6 @@ export default {
                 return note.type === noteType;
             });
             return notesToShow;
-        },
-        addBtnStyle() {
-            return {
-                palegreen: this.isImgUploaded
-            }
         }
     },
     created() {

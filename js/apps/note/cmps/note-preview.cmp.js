@@ -16,13 +16,13 @@ export default {
 
             <section class="note-controls">
                 <!-- Pinning Note -->
-                <h1 @click="$emit('pinNote', note.id)" title="Pin Note" class="fa fa-map-pin"></h1>
+                <h1 @click="$emit('pinNote', note.id)" title="Pin Note" class="fa fa-map-pin fa-2x"></h1>
 
                 <!-- Removing Note: -->
-                <h1 @click="$emit('removeNote', note.id)" title="Remove Note" class="fa fa-trash"></h1>
+                <h1 @click="$emit('removeNote', note.id)" title="Remove Note" class="fa fa-trash fa-2x"></h1>
 
                 <!-- Duplicating Note: -->
-                <h1 @click="$emit('duplicateNote', note.id)" title="Duplicate Note" class="fa fa-clone"></h1>
+                <h1 @click="$emit('duplicateNote', note.id)" title="Duplicate Note" class="fa fa-clone fa-2x"></h1>
                 
                 <!-- Setting Note Color: -->
                 <input @input="$emit('setColor', $event, note.id)" type="color" id="color-input">

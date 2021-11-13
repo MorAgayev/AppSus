@@ -1,35 +1,42 @@
 
 .note-filter {
     text-align: center;
-    height: 30px;
     display: flex;
     justify-content: center;
-    gap: 40px;
-    border: 1px solid black;
-    width: 80%;
-    margin: auto;
+    padding: 10px;
 }
 
 .labels-container {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    align-items: center;
 }
 
-.labels-container div {
-    height: 0;
+.labels-container h1 {
+    display: block;
+    margin: auto;
 }
 
 .label {
-    margin: 0;
-    border: 1px solid black;
-    background-color:goldenrod;
-    border-radius: 5px;
+    display: flex;
+    justify-content: center;
     width: 80px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color:lightgray;
+    box-shadow: 2px 2px 0 0 gray;
+    font-weight: bold;
     cursor: pointer;
+    transition: transform .2s;
 }
 
 .label:hover {
-    background-color:rgb(182, 150, 68);
+    opacity: 0.8;
+}
+
+.selected {
+    transform: scale(1.2);
 }

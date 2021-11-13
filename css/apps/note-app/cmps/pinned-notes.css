@@ -1,8 +1,8 @@
 
 .pinned-container {
-    /* display: flex; */
     margin: 50px auto;
-    border: 5px dotted black;
+    border: 1px solid black;
+    padding: 10px;
 }
 
 .pinned-container h1 {
@@ -11,16 +11,21 @@
 
 .pinned-container ul {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     gap: 20px;
+    /* text-align: center; */
+    padding: 0;
 }
 
 .pinned-container li {
     list-style: none;
+    margin: auto;
 }
 
 .pinned-container button {
     display: block;
     margin: auto;
+    cursor: pointer;
 }

@@ -7,7 +7,7 @@ export default {
         <section class="note-filter">
             <section class="labels-container">
                 <div v-for="type in types">
-                    <labels-types :type="type" @labelClicked="filterByType"/>
+                    <labels-types :type="type" @labelClicked="filterByType" />
                 </div>
                 <h3 @click="$emit('showAll')" class="label">ALL</h3>
             </section>
@@ -18,7 +18,7 @@ export default {
             filterBy: {
                 type: ''
             },
-            types: ['note-txt', 'note-img', 'note-video', 'note-todos']
+            types: ['note-txt', 'note-img', 'note-video', 'note-todos'],
         };
     },
     methods: {
@@ -28,6 +28,7 @@ export default {
         filterByType(type) {
             this.filterBy.type = type;
             this.filter();
+            this.isSelected = true;
         }
     },
     components: {

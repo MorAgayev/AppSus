@@ -8,7 +8,7 @@ export default {
             <ul>
                 <li v-for="(todo, idx) in info.todos">
                     <todo-preview :note="note" :todo="todo" :idx="idx" @markTodo="$emit('markTodo')"/>
-                    <span @click="$emit('removeTodo', idx)">x</span>
+                    <span @click="$emit('removeTodo', idx)">✖</span>
                 </li>
             </ul>
         </div>

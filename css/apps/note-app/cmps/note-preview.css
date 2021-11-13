@@ -1,6 +1,6 @@
 
 .note-preview {
-    border: 3px solid black;
+    border: 1px solid lightgray;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,22 +10,18 @@
 
 .note-controls {
     display: flex;
-    margin-top: 10px;
-    max-height: 30px;
-    /* gap: 5px; */
     flex-direction: row;
-}
-
-.note-controls h1 {
-    width: 30px;
-    height: 30px;
+    justify-content: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    width: 100%;
+    gap: 20px;
+    border-top: 1px solid gray;
 }
 
 .note-controls h1:hover {
-    color: dimgray;
+    opacity: 0.4;
 }
-
-
 
 .shadow {
     box-shadow: inset 0 0 10px 10px gray;

@@ -4,9 +4,9 @@ export default {
     props: ['notes'],
     template: `
         <section class="pinned-container">
-            <h1>Pinned Notes</h1>
+            <h1>PINNED NOTES</h1>
             <ul>
-                <li v-for="note in notes">
+                <li v-for="note in notes" class="pinned-note">
                     <note-preview :note="note"/>
                 </li>
             </ul>
