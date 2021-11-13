@@ -1,6 +1,8 @@
 // import { utilService } from '../../../services/util-service.js';
 import { noteService } from '../services/note-service.js';
 import notePreview from '../cmps/note-preview.cmp.js';
+import noteFilter from '../cmps/note-filter.cmp.js';
+import pinnedNotes from '../cmps/pinned-notes.cmp.js';
 
 export default {
     template: `
@@ -11,11 +13,13 @@ export default {
                 <fieldset>
                     <legend>Add Your Note</legend>
 
+                    <!-- Note Txt -->
                     <template>
                         <input @keydown.enter.prevent @blur="addNote('note-txt', $event)" type="text" placeholder="What's on your mind?" ref="txtInput" class="noteTxtInput">
                         <!-- <i class="fa fa-font" title="Write Text" @click="addNote('note-txt', $event)"></i> -->
                     </template>
 
+                    <!-- Note Img -->
                     <template class="image-upload">
                         <label for="file-input">
                             <h2 class="fa fa-image" :class="{blue: isImgUploaded}" title="Add Image"></h2>
@@ -23,33 +27,41 @@ export default {
                         <input @change="addNote('note-img', $event)" type="file" id="file-input" ref="imgInput">
                     </template>
 
+                    <!-- Note Video -->
                     <template class="video-upload">
                         <i class="fa fa-youtube" @click="searchOnYoutube" title="Search on Youtube" :class="{blue: isVideoUploaded}"></i>
                     </template>
 
+                    <!-- Note Todos -->
                     <template class="toDoListCreation">
                         <i class="fa fa-list" title="Create To-Do List" @click="openToDoList" :class="{blue: isToDoListChosen}"></i>
                         <ul v-if="isToDoListChosen">
                             <li v-for="count in toDoItemsCount">
                                 <span>To Do</span>
-                                <input @keydown.enter.prevent @input="typeToDo" @click="resetLettersCount" @blur="addToDoItem" type="text" placeholder="To Do..." class="toDoInput" ref="todoInput"> 
+                                <input @keydown.enter.prevent @input="typeToDo" @click="resetLettersCount" @keydown.tab="resetLettersCount" @blur="addToDoItem" type="text" placeholder="To Do..." class="toDoInput" ref="todoInput"> 
                             </li>
                         </ul>
                     </template>
 
+                    <!-- Img Promo -->
                     <img v-if="isImgUploaded" :src="note.info.url" class="img-promo">
 
-                    <legend><button @click="saveNote">ADD</button></legend>
+                    <!-- Adding Note Button -->
+                    <legend><button @click="saveNote" :class="addBtnStyle">ADD</button></legend>
                 </fieldset>
             </form>
 
-            <ul class="note-list">
-                <li v-for="note in notes" :key="note.id" class="note-preview-container">
-                    <note-preview :note="note" @removeNote="removeNote"/>
-                    <!-- @click.native="select(note)" -->
-                    <!-- <router-link :to="'/note/'+note.id" class="details-link">Details</router-link> -->
-                </li>
-            </ul>
+            <note-filter @filtered="setFilter" @showAll="resetFilterBy" :notes="notes"/>
+
+            <pinned-notes v-if="arePinned" :notes="pinnedNotes" @unpinNotes="unpinNotes"/>
+            
+            <main>
+                <ul class="note-list">
+                    <li v-for="note in notesToShow" :key="note.id" class="note-preview-container">
+                        <note-preview :note="note" @pinNote="pinNote" @removeNote="removeNote" @duplicateNote="duplicateNote" @setColor="setColor" @removeTodo="removeTodo" />
+                    </li>
+                </ul>
+            </main>
         </section>
     `,
     data() {
@@ -71,15 +83,18 @@ export default {
             isToDoListChosen: false,
             todos: [],
             toDoItemsCount: 0,
-            inputLettersCount: 0
+            inputLettersCount: 0,
+            filterBy: null,
+            arePinned: false,
+            pinnedNotes: []
         }
     },
     methods: {
-        log(parameter) {
-            console.log(parameter);
+        log(parameter1) {
+            console.log(parameter1);
+            // console.log(parameter2);
         },
         addNote(noteType, ev) {
-            // this.note.type = noteType;
             if (noteType === 'note-txt') this.addTxt(noteType, ev);
             if (noteType === 'note-img') this.addImg(noteType, ev);
         },
@@ -107,9 +122,6 @@ export default {
             this.note.type = 'note-video';
             this.saveNote();
         },
-        onSelectedVid(id) {
-            document.querySelector('iframe').src = `https://www.youtube.com/embed/${id}`;
-        },
         openToDoList() {
             this.isToDoListChosen = true;
             this.toDoItemsCount++;
@@ -136,17 +148,70 @@ export default {
             noteService.postNote(this.note)
                 .then(this.loadNotes)
         },
-        saveNotes() {
-            noteService.updateNotes(this.notes)
-            // .then(this.loadNotes)
-        },
         removeNote(noteId) {
             noteService.removeNote(noteId)
                 .then(this.loadNotes)
         },
+        duplicateNote(noteId) {
+            const note = this.notes.find(note => note.id === noteId);
+            const noteIdx = this.notes.findIndex(note => note.id === noteId);
+            noteService.duplicateNote(note, noteIdx)
+                .then(this.loadNotes)
+        },
+        setColor(ev, noteId) {
+            const chosenColor = ev.target.value;
+            const note = this.notes.find(note => note.id === noteId);
+            note.style.backgroundColor = chosenColor;
+            noteService.putNote(note)
+                .then(this.loadNotes)
+        },
+        removeTodo(todoIdx, noteId) {
+            const note = this.notes.find(note => note.id === noteId);
+            note.info.todos.splice(todoIdx, 1);;
+            noteService.putNote(note)
+                .then(this.loadNotes)
+        },
+        setFilter(filterBy) {
+            this.filterBy = filterBy;
+        },
+        resetFilterBy() {
+            this.filterBy = null;
+            this.loadNotes();
+        },
+        pinNote(noteId) {
+            const noteIdx = this.notes.findIndex(note => note.id === noteId);
+            var pinnedNote = this.notes[noteIdx];
+            pinnedNote.isPinned = true;
+            this.pinnedNotes.push(pinnedNote);
+            this.notes.splice(noteIdx, 1);
+            this.arePinned = true;
+            this.removeNote(pinnedNote.id);
+        },
+        unpinNotes() {
+            this.notes.push(...this.pinnedNotes)
+            this.arePinned = false;
+            noteService.postNotes(this.pinnedNotes)
+                .then(this.loadNotes)
+                .then(this.pinnedNotes = [])
+        },
         loadNotes() {
             noteService.queryNotes()
                 .then(notes => this.notes = notes)
+        }
+    },
+    computed: {
+        notesToShow() {
+            if (!this.filterBy) return this.notes;
+            const noteType = this.filterBy.type;
+            const notesToShow = this.notes.filter(note => {
+                return note.type === noteType;
+            });
+            return notesToShow;
+        },
+        addBtnStyle() {
+            return {
+                palegreen: this.isImgUploaded
+            }
         }
     },
     created() {
@@ -156,7 +221,9 @@ export default {
         this.$refs.txtInput.focus();
     },
     components: {
-        notePreview
+        notePreview,
+        noteFilter,
+        pinnedNotes
     }
 }
 

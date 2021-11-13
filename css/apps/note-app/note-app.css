@@ -3,6 +3,9 @@
 @import './cmps/note-img.css';
 @import './cmps/note-video.css';
 @import './cmps/note-todos.css';
+@import './cmps/todo-preview.css';
+@import './cmps/note-filter.css';
+@import './cmps/pinned-notes.css';
 
 .note-app {
     background-color: #aaa;
@@ -25,11 +28,7 @@
 .noteTxtInput {
     width: 400px;
     height: 30px;
-} 
-
-/* .fa-font {
-    margin-left: -90px;
-} */
+}
 
 .fa-image {
     margin-left: -70px;
@@ -39,7 +38,7 @@
     cursor: pointer;
 }
 
-.fa:hover {
+.note-app fieldset .fa:hover {
     opacity: 0.5;
 }
 
@@ -76,6 +75,10 @@
 .blue {
     color: blue;
 } 
+
+.palegreen {
+    background-color:palegreen;
+}
 
 .img-promo {
     display: block;
