@@ -9,15 +9,13 @@ const options = {
     template: `
         <section>
             <app-header />
-            
             <router-view />
             <app-footer />
         </section>
     `,
     components: {
         appHeader,
-        appFooter,
-        // navModal 
+        appFooter 
     }
 };
 

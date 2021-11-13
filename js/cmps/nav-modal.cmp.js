@@ -2,6 +2,10 @@ export default {
     name: 'nav-modal', 
     template: `
         <nav class="nav-modal">
+            <div @click="toHomeApp">
+                <i class="fa fa-home fa-3x"></i>
+                <div>Home</div>
+            </div>
             <div @click="toEmailApp">
                 <i class="fa fa-envelope fa-3x"></i>
                 <div>Email</div>
@@ -18,6 +22,11 @@ export default {
         }
     }, 
     methods: {
+        toHomeApp() {
+            this.$router.push('/')
+            this.toggleNavModal()
+        },
+
         toEmailApp() {
             this.$router.push('/email')
             this.toggleNavModal()

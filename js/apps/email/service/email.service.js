@@ -84,6 +84,15 @@ function createEmails() {
         createEmail('Mor', 'Trip plan', 'Hi this is our trip plan.Hope you like :)'),
         createEmail('Popo', 'Order Confirmation', 'Please confirm your order'),
         createEmail('Momo', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
+        createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!'),
         createEmail('Shoko', 'Hello VUE', 'Hello, I\'m VUE nice to meet!')
     ]
     utilService.saveToStorage(EMAILS_KEY, emails)

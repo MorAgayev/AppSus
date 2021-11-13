@@ -11,6 +11,11 @@
     src: url('./fonts/roboto/Roboto-Light.ttf');
 }
 
+@font-face {
+    font-family: Roboto-bold;
+    src: url('./fonts/roboto//Roboto-Medium.ttf');
+}
+
 /* BASIC */
 
 *{box-sizing: border-box;}
@@ -56,27 +61,6 @@ html * {
     margin-bottom: 10px;
 }
 
-
-/* .share-modal {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -30%;
-    margin: auto;
-    width: 30%;
-    z-index: 1;
-    padding: 1em;
-    font-size: 0.9em;
-    background:wheat;
-    border: 5px solid rgb(71, 70, 70); 
-    border-radius: 10px;
-    transition: top 1s;
-}
-
-.show-share-modal {
-    visibility: visible;
-    top: 40%
-} */
 
 @media (min-width: 740px) {
    
