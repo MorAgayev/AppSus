@@ -1,8 +1,6 @@
 footer {
-    background-color: wheat;
+    background-color: rgb(245, 244, 244);
     padding: 20px;
     text-align: center;
-    width: 100%;
-    /* position: fixed;
-    bottom: 0; */
+    /* width: 100%; */
 }

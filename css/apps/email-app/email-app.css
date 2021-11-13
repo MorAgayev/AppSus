@@ -11,7 +11,7 @@
 
 .main-grid {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: auto 4fr;
     grid-template-rows: auto 1fr;
     gap: 10px
     /* display: grid;
@@ -20,17 +20,21 @@
     gap: 30px; */
 }
 
-@media (min-width: 740px) {
+@media (max-width: 750px) {
     .email-app {
-        padding: 20px; 
+        display: flex;
+        flex-direction: column;
+        /* padding: 20px;  */
         /* background-color: green; */
     }
 
     .main-grid {
+        display: flex;
+        flex-direction: column;
         /* display: grid;
         grid-template-columns: 1fr 4fr;
         grid-template-rows: auto 1fr; */
-        gap: 30px;
+        gap: 10px;
     }
 }
 
