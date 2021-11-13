@@ -21,10 +21,11 @@ export default {
     
     created() {
         let draftInterval = setInterval(() => this.saveDraft(), 5000)
+        if(this.stopInterval) clearInterval(draftInterval)
     },
 
     destroyed() {
-        clearInterval(this.draftInterval)
+        clearInterval(draftInterval)
     },
 
     data() {
@@ -32,13 +33,12 @@ export default {
             to: '', 
             name: '',
             subject: '',
-            body: ''
+            body: '', 
         }
     }, 
 
     methods: {
         saveDraft() {
-            console.log('saved draft');
             return  {
                 status: 'draft',
                 email: this.email, 
@@ -50,7 +50,6 @@ export default {
         },
 
         closeModal() {
-            clearInterval(this.draftInterval)
             const email = this.saveDraft()
             this.$emit('closeModal', email)
         }, 
@@ -65,7 +64,6 @@ export default {
                 sendAt: Date.now()
             }
             this.$emit('sendEmail', emailDetails)
-            // userMsg('success', 'Email Sent succesfully')
         }
 
     }

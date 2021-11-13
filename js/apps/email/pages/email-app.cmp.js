@@ -12,7 +12,7 @@ export default {
             <div class="main-grid">
                 <email-filter :unreadEmails="unreadEmails" @filterd="filtering" @OpenNewEmail="toggleNewEmail"/>
                 <email-search @filterBy='setSearch' @sort="setSort" @setIsRead="setIsRead" />
-                <email-list :emails="emailsToShow" @changeRead="changeRead" @changeStared="changeStared" @removeEmail="removeEmail"/> 
+                <email-list :emails="emailsToShow" @changeRead="changeRead" @changeStared="changeStared" @removeEmail="removeEmail" @sentToNotes="sentToNotes"/> 
             </div>
             <email-new v-if="isNewEmail" @sendEmail="addEmail" @closeModal="addEmail" />
           
@@ -75,7 +75,7 @@ export default {
 
         setIsRead(val) {
             if(val === 'READ') emailService.UpdateCriteria('isRead', true)
-            if(val === 'UNREAD') emailService.UpdateCriteria('isRead', false)
+            if(val === 'UNREAD' || val === 'ALL') emailService.UpdateCriteria('isRead', false)
             // if(val === 'STARRED') emailService.UpdateCriteria('isStared', true)
             // if(val === 'UNSTARRED') emailService.UpdateCriteria('isStared', false)
             this.loadEmails()
@@ -129,6 +129,11 @@ export default {
                 })
                 .then(this.loadEmails)
 
+        }, 
+
+        sentToNotes(email) {
+            emailService.sendToNotes(email)
+            this.$router.push('/note')
         }
     },
     

@@ -10,7 +10,7 @@ export default {
         <section v-if="emails" class="email-list">
             <ul>
                 <li v-for="email in emails" :key="email.id">
-                   <email-preview :email="email" @setIsRead="changeRead" @changeStared="changeStared" @removeEmail="removeEmail" />
+                   <email-preview :email="email" @setIsRead="changeRead" @changeStared="changeStared" @removeEmail="removeEmail" @sentToNotes="sentToNotes"/>
                 </li>
             </ul>
         </section>
@@ -31,6 +31,10 @@ export default {
         
         removeEmail(id) {
             this.$emit('removeEmail', id)
+        }, 
+
+        sentToNotes(email) {
+            this.$emit('sentToNotes', email)
         }
         
     }
