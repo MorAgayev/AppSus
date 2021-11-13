@@ -6,9 +6,12 @@ const NOTES_KEY = 'notes';
 export const noteService = {
     queryNotes,
     postNote,
-    // postNotes,
+    postNotes,
     removeNote,
-    getYoutubeVid
+    duplicateNote,
+    getYoutubeVid,
+    putNote,
+    getById
 };
 
 function queryNotes() {
@@ -29,14 +32,32 @@ function postNote(note) {
     return storageService.post(NOTES_KEY, note)
 }
 
+function postNotes(notes) {
+    return storageService.postMany(NOTES_KEY, notes)
+}
+
+function duplicateNote(note, noteIdx) {
+    return storageService.query(NOTES_KEY)
+        .then(entities => {
+            note.id = storageService._makeId();
+            entities.splice(noteIdx + 1, 0, note);
+            storageService._save(NOTES_KEY, entities)
+            return note;
+        })
+}
+
+
 function removeNote(noteId) {
     return storageService.remove(NOTES_KEY, noteId)
 }
 
-// function postNotes(notes) {
-//     return storageService.postMany(NOTES_KEY, notes)
-// }
+function putNote(note) {
+    return storageService.put(NOTES_KEY, note);
+}
 
+function getById(id) {
+    return storageService.get(NOTES_KEY, id);
+}
 
 const API_KEY = 'AIzaSyC2naoqUzLAdkFOCeIib38MU8fsFykr3og';
 function getYoutubeVid(searchVal) {
@@ -49,6 +70,8 @@ function getYoutubeVid(searchVal) {
         })
 }
 
+
+// Our Model:
 const gNotes = [
     {
         id: "n101",
@@ -67,8 +90,8 @@ const gNotes = [
         type: "note-img",
         isPinned: false,
         info: {
-            txt: "Flag",
-            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/1280px-Flag_of_Israel.svg.png"
+            txt: "Northern Lights",
+            url: "https://media.istockphoto.com/videos/northern-lights-in-norway-over-a-beach-video-id1217913086?b=1&k=20&m=1217913086&s=640x640&h=1kBOWHLa8V9QF_wyeOGS4_9FcubyeaxiwbEqOtaf2GM="
         },
         style: {
             backgroundColor: "lightskyblue",
@@ -95,8 +118,8 @@ const gNotes = [
         info: {
             txt: "Get my stuff together",
             todos: [
-                { txt: "Driving liscence", doneAt: null },
-                { txt: "Coding power", doneAt: 187111111 }
+                { txt: "Driving liscence", isDone: false },
+                { txt: "Coding power", isDone: false }
             ]
         },
         style: {

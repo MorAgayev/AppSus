@@ -1,6 +1,11 @@
 
+.note-todos h3,
 .note-todos h4 {
     margin: 0;
+}
+
+.note-todos h4:hover {
+    cursor: pointer;
 }
 
 .note-todos ul {

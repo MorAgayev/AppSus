@@ -6,21 +6,43 @@ import noteTodos from '../cmps/note-todos.cmp.js';
 export default {
     props: ['note', 'note.id'],
     template: `
-        <div class="note-preview" :class="openingStyle" :style="note.style">
+        <div class="note-preview" :class="openingStyle" :style="note.style" draggable="true">
             <component  
+                        :note="note"
                         :is="note.type" 
-                        :info="note.info">
+                        :info="note.info"
+                        @removeTodo="removeTodo">
             </component>
+
             <section class="note-controls">
-                <button @click="$emit('removeNote', note.id)">X</button>
-                <!-- <button @click="$emit('removeNote', note.id)">X</button> -->
+                <!-- Pinning Note -->
+                <h1 @click="$emit('pinNote', note.id)" title="Pin Note" class="fa fa-map-pin"></h1>
+
+                <!-- Removing Note: -->
+                <h1 @click="$emit('removeNote', note.id)" title="Remove Note" class="fa fa-trash"></h1>
+
+                <!-- Duplicating Note: -->
+                <h1 @click="$emit('duplicateNote', note.id)" title="Duplicate Note" class="fa fa-clone"></h1>
+                
+                <!-- Setting Note Color: -->
+                <input @input="$emit('setColor', $event, note.id)" type="color" id="color-input">
             </section>
         </div>
     `,
     data() {
         return {
-            isNew: true
+            isNew: true,
+            id: '',
+            colorInput: ''
         }
+    },
+    methods: {
+        log(parameter) {
+            console.log(parameter);
+        },
+        removeTodo(todoIdx) {
+            this.$emit('removeTodo', todoIdx, this.note.id)
+        },
     },
     created() {
         setTimeout(() => { this.isNew = false }, 1000);

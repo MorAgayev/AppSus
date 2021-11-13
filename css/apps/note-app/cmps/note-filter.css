@@ -1,0 +1,35 @@
+
+.note-filter {
+    text-align: center;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    border: 1px solid black;
+    width: 80%;
+    margin: auto;
+}
+
+.labels-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+}
+
+.labels-container div {
+    height: 0;
+}
+
+.label {
+    margin: 0;
+    border: 1px solid black;
+    background-color:goldenrod;
+    border-radius: 5px;
+    width: 80px;
+    cursor: pointer;
+}
+
+.label:hover {
+    background-color:rgb(182, 150, 68);
+}

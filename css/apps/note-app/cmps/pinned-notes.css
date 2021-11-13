@@ -1,0 +1,26 @@
+
+.pinned-container {
+    /* display: flex; */
+    margin: 50px auto;
+    border: 5px dotted black;
+}
+
+.pinned-container h1 {
+    text-align: center;
+}
+
+.pinned-container ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.pinned-container li {
+    list-style: none;
+}
+
+.pinned-container button {
+    display: block;
+    margin: auto;
+}
