@@ -2,9 +2,11 @@
     cursor: pointer;
     border-bottom: 2.5px solid rgb(221, 220, 220);
     display: flex;
-    justify-content: space-between;
+    /* flex-direction: column; */
+    /* justify-content: space-between; */
     align-items: center;
-    padding: 20px 15px;
+    width: 100%;
+    padding: 10px 15px;
 }
 
 .email-preview:hover {
@@ -20,4 +22,40 @@
 .unread-email {
     background-color: rgb(255, 255, 255);
     font-weight: 600;
+}
+
+.preview-start {
+    display: flex;
+    gap: 15px;
+    width: 25%;
+}
+
+.preview-subject {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.fa {
+    size: 50px;
+}
+
+.starred {
+    color: gold;
+}
+
+.unstarred {
+    color:rgb(228, 227, 227);
+}
+
+@media (min-width: 740px) {
+    .email-preview {
+        flex-direction: row;
+    }
+
 }

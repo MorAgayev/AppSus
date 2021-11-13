@@ -5,15 +5,27 @@
 @import './apps/note-app/note-app.css';
 @import './cmp/home-page.css';
 
+/* TYPOGRAPHY */
+@font-face {
+    font-family: Roboto-regular;
+    src: url('./fonts/roboto/Roboto-Light.ttf');
+}
+
+/* BASIC */
+
 *{box-sizing: border-box;}
 
 body {
     margin: 0;
 }
 
-button {
-    cursor: pointer;
+html * {
+    font-family:  Roboto-regular;
+    font-size: 14px;
+    letter-spacing: 0.065em;
+    /* line-height: 20px; */
 }
+
 /* LAYOUT */
 .main-layout {
     margin: 0 20px;
@@ -22,4 +34,50 @@ button {
 /* USER MSG */
 .success {
     background-color: green;
+}
+
+.nav-modal {
+    background-color:white;
+    box-shadow: 0 0 1px 1px rgb(165, 165, 165);
+    position: absolute;
+    right: 55px;
+    top: 55px;
+    padding: 30px;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-modal > * { 
+    text-align: center;
+    color: rgb(112, 112, 112)
+}
+
+.nav-modal div > * {
+    margin-bottom: 10px;
+}
+
+
+/* .share-modal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -30%;
+    margin: auto;
+    width: 30%;
+    z-index: 1;
+    padding: 1em;
+    font-size: 0.9em;
+    background:wheat;
+    border: 5px solid rgb(71, 70, 70); 
+    border-radius: 10px;
+    transition: top 1s;
+}
+
+.show-share-modal {
+    visibility: visible;
+    top: 40%
+} */
+
+@media (min-width: 740px) {
+   
 }

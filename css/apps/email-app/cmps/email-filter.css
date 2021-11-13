@@ -2,7 +2,7 @@
     background-color:rgb(241, 241, 241);
     padding: 20px;
     border-radius: 5px;
-    grid-row: 2 span;
+    /* grid-row: 2 span; */
 }
 
 .email-filter ul {
@@ -19,4 +19,10 @@
     padding: 5px;
     background-color: rgb(216, 216, 216);
     border-radius: 5px;
+}
+
+@media (min-width: 740px) {
+    .email-filter {
+        grid-row: 2 span;
+    }
 }

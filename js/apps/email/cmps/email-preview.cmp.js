@@ -1,22 +1,29 @@
 export default {
-    props:['email'],
+    props: ['email'],
 
     name: 'email-preview',
 
     template: `
-            <article @click="showDetails" :class="previewStyle" class="email-preview">
-                <input type="checkbox" @click.stop="changeStared">
-                <button @click.stop="setIsRead">{{btnRead}}</button>
-                <span>{{email.name}}</span>
-                <span>{{email.subject}}</span>
-                <span>{{setDate}}</span>
-                <button @click.stop="removeEmail">X</button>
+            <article @click="showDetails" :class="previewStyle" class="email-preview" @mouseover="hover=true" @mouseleave="hover=false">
+                <div class="preview-start">
+                    <li @click.stop="changeStared" class="fa fa-star" :class="setStarred"></li>
+                    <span>{{email.name}}</span>
+                </div>
+                <div class="preview-subject">{{email.subject}} - {{email.body}}</div>
+                <div class="preview-actions" v-if="hover" >
+                    <li @click.stop="setIsRead" class="fa fa-inbox"></li>
+                    <li  @click.stop="removeEmail" class="fa fa-trash-o"></li>
+                    <li  class="fa fa-paper-plane"></li>
+                </div>
+                <span v-else>{{setDate}}</span>
             </article>
     `,
 
     data() {
         return {
-            isRead: true
+            isRead: true,
+            hover: false, 
+            isStarred: false
         }
     },
 
@@ -28,6 +35,7 @@ export default {
 
         changeStared() {
             this.$emit('changeStared', this.email.id)
+            this.isStarred = !this.isStarred
         },
 
         showDetails() {
@@ -38,23 +46,28 @@ export default {
         removeEmail() {
             this.$emit('removeEmail', this.email.id)
         }
-    }, 
-    
+    },
+
     computed: {
         setDate() {
             var d = new Date(this.email.sentAt);
-            var dateStr = d.toString().slice(4,15)
+            var dateStr = d.toString().slice(4, 10)
             return dateStr;
-        }, 
+        },
 
         previewStyle() {
             if (this.email.isRead) return {'read-email': true}
             else return {'unread-email': true}
-        }, 
+        },
 
         btnRead() {
-            if(this.email.isRead) return 'Unread'
+            if (this.email.isRead) return 'Unread'
             else return 'Read'
-        }  
+        }, 
+
+        setStarred() {
+            if(this.isStarred) return {'starred' : true}
+            else return {'unstarred': true}
+        }
     }
 }

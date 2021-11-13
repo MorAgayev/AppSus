@@ -4,7 +4,6 @@
 @import './cmps/email-search.css';
 @import './email-details.css';
 @import './cmps/email-new.css';
-/* @import './email-detail.css'; */
 
 .email-app {
     padding: 20px; 
@@ -14,9 +13,24 @@
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: auto 1fr;
-    gap: 30px;
+    gap: 10px
+    /* display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: auto 1fr;
+    gap: 30px; */
 }
-.email-app h1 {
-    margin: 0 ;
+
+@media (min-width: 740px) {
+    .email-app {
+        padding: 20px; 
+        /* background-color: green; */
+    }
+
+    .main-grid {
+        /* display: grid;
+        grid-template-columns: 1fr 4fr;
+        grid-template-rows: auto 1fr; */
+        gap: 30px;
+    }
 }
 

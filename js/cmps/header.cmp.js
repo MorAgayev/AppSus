@@ -1,3 +1,4 @@
+import navModal from './nav-modal.cmp.js';
 export default {
     template: `
             <header class="header-container">
@@ -6,9 +7,23 @@ export default {
                         <h1>AppSus</h1>
                     </div>
                     <nav>
-                        <img src="./img/main-img/nav-img.png" alt="" srcset=""> 
+                        <img src="./img/main-img/nav-img.png" @click="toggleNavModal"> 
                     </nav>
                 </div>
+                <nav-modal v-if="isOpen" @toggleNavModal="toggleNavModal"/>
             </header>
-    `
+    `,
+    data() {
+        return {
+            isOpen: false
+        }
+    },
+    components: {
+        navModal
+    },
+    methods: {
+        toggleNavModal() {
+            this.isOpen = !this.isOpen
+        }
+    }
 }

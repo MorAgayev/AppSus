@@ -74,9 +74,10 @@ export default {
         }, 
 
         setIsRead(val) {
-            console.log(val);
-            if(val === 'READ') emailService.UpdateCriteria('isRead', false)
-            if(val === 'UNREAD') emailService.UpdateCriteria('isRead', true)
+            if(val === 'READ') emailService.UpdateCriteria('isRead', true)
+            if(val === 'UNREAD') emailService.UpdateCriteria('isRead', false)
+            // if(val === 'STARRED') emailService.UpdateCriteria('isStared', true)
+            // if(val === 'UNSTARRED') emailService.UpdateCriteria('isStared', false)
             this.loadEmails()
         }, 
 
