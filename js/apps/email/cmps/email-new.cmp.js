@@ -1,7 +1,9 @@
 // import { eventBus } from "../../../services/event-bus.js"
 
 export default {
-    name:'email-new',
+    name: 'email-new',
+
+    props: ['emailToSendDetails'],
 
     template: `
          <section class="new-email">
@@ -17,10 +19,12 @@ export default {
                 <button>Send</button>
             </form>
         </section>
-    `, 
-    
+    `,
+
     created() {
         let draftInterval = setInterval(() => this.saveDraft(), 5000)
+
+        // this.setBody();
     },
 
     destroyed() {
@@ -29,19 +33,19 @@ export default {
 
     data() {
         return {
-            to: '', 
+            to: '',
             name: '',
             subject: '',
             body: ''
         }
-    }, 
+    },
 
     methods: {
         saveDraft() {
             console.log('saved draft');
-            return  {
+            return {
                 status: 'draft',
-                email: this.email, 
+                email: this.email,
                 name: this.name,
                 subject: this.subject,
                 body: this.body,
@@ -53,12 +57,12 @@ export default {
             clearInterval(this.draftInterval)
             const email = this.saveDraft()
             this.$emit('closeModal', email)
-        }, 
+        },
 
         sendEmail() {
             const emailDetails = {
                 status: 'sent',
-                email: this.email, 
+                email: this.email,
                 name: this.name,
                 subject: this.subject,
                 body: this.body,
@@ -66,7 +70,19 @@ export default {
             }
             this.$emit('sendEmail', emailDetails)
             // userMsg('success', 'Email Sent succesfully')
+        },
+
+        setBody() {
+            if (!this.emailToSendDetails) return '';
+            else {
+                this.body = this.emailToSendDetails.body;
+            }
         }
 
+    },
+
+    mounted() {
+        this.setBody();
     }
+
 }

@@ -11,7 +11,9 @@ export const noteService = {
     duplicateNote,
     getYoutubeVid,
     putNote,
-    getById
+    getById,
+    sendViaEmail,
+    sendEmail
 };
 
 function queryNotes() {
@@ -46,7 +48,6 @@ function duplicateNote(note, noteIdx) {
         })
 }
 
-
 function removeNote(noteId) {
     return storageService.remove(NOTES_KEY, noteId)
 }
@@ -57,6 +58,37 @@ function putNote(note) {
 
 function getById(id) {
     return storageService.get(NOTES_KEY, id);
+}
+
+function sendViaEmail(noteId) {
+    return getById(noteId)
+        .then(note => {
+            if (note.type === 'note-txt') {
+                return {
+                    body: note.info.txt
+                }
+            }
+            if (note.type === 'note-img' || note.type === 'note-video') {
+                return {
+                    subject: note.info.txt,
+                    body: note.info.url
+                }
+            }
+            if (note.type === 'note-todos') {
+                var todos = note.info.todos.map(todo => {
+                    return todo.txt;
+                })
+                todos = todos.join('\n');
+                return {
+                    subject: note.info.txt,
+                    body: todos
+                }
+            }
+        })
+}
+
+function sendEmail(email) {
+    storageService.put('Emails', email)
 }
 
 const API_KEY = 'AIzaSyC2naoqUzLAdkFOCeIib38MU8fsFykr3og';

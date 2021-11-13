@@ -22,6 +22,3 @@ export default {
         notePreview
     }
 }
-
-
-// @pinNote="" @removeNote="removeNote" @setColor="setColor" @removeTodo="removeTodo"

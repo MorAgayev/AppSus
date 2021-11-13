@@ -1,5 +1,4 @@
 import labelsTypes from '../cmps/labels-types.cmp.js';
-import { noteService } from '../services/note-service.js';
 
 export default {
     props: ['notes'],

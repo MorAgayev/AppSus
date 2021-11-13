@@ -1,8 +1,9 @@
-// import { utilService } from '../../../services/util-service.js';
+
 import { noteService } from '../services/note-service.js';
 import notePreview from '../cmps/note-preview.cmp.js';
 import noteFilter from '../cmps/note-filter.cmp.js';
 import pinnedNotes from '../cmps/pinned-notes.cmp.js';
+import emailNew from '../../email/cmps/email-new.cmp.js';
 
 export default {
     template: `
@@ -14,7 +15,6 @@ export default {
                     <!-- Note Txt -->
                     <template>
                         <input @keydown.enter.prevent @blur="addNote('note-txt', $event)" type="text" placeholder="What's on your mind?" ref="txtInput" class="noteTxtInput">
-                        <!-- <i class="fa fa-font" title="Write Text" @click="addNote('note-txt', $event)"></i> -->
                     </template>
 
                     <!-- Note Img -->
@@ -56,10 +56,12 @@ export default {
             <main>
                 <ul class="note-list">
                     <li v-for="note in notesToShow" :key="note.id">
-                        <note-preview :note="note" @pinNote="pinNote" @removeNote="removeNote" @duplicateNote="duplicateNote" @setColor="setColor" @removeTodo="removeTodo" />
+                        <note-preview :note="note" @pinNote="pinNote" @removeNote="removeNote" @duplicateNote="duplicateNote" @setColor="setColor" @removeTodo="removeTodo" @sendViaEmail="sendViaEmail"/>
                     </li>
                 </ul>
             </main>
+
+            <email-new v-if="isEmailToSend" @closeModal="toggleEmailModal" @sendEmail="sendEmail" :emailToSendDetails="emailToSendDetails"/>
         </section>
     `,
     data() {
@@ -84,14 +86,12 @@ export default {
             inputLettersCount: 0,
             filterBy: null,
             arePinned: false,
-            pinnedNotes: []
+            pinnedNotes: [],
+            isEmailToSend: false,
+            emailToSendDetails: null
         }
     },
     methods: {
-        log(parameter1) {
-            console.log(parameter1);
-            // console.log(parameter2);
-        },
         addNote(noteType, ev) {
             if (noteType === 'note-txt') this.addTxt(noteType, ev);
             if (noteType === 'note-img') this.addImg(noteType, ev);
@@ -192,6 +192,17 @@ export default {
                 .then(this.loadNotes)
                 .then(this.pinnedNotes = [])
         },
+        sendViaEmail(noteId) {
+            noteService.sendViaEmail(noteId)
+                .then(res => this.emailToSendDetails = res)
+                .then(this.toggleEmailModal())
+        },
+        toggleEmailModal() {
+            this.isEmailToSend = !this.isEmailToSend
+        },
+        sendEmail(email) {
+            noteService.sendEmail(email)
+        },
         loadNotes() {
             noteService.queryNotes()
                 .then(notes => this.notes = notes)
@@ -216,63 +227,7 @@ export default {
     components: {
         notePreview,
         noteFilter,
-        pinnedNotes
+        pinnedNotes,
+        emailNew
     }
 }
-
-// const gNotes = [
-//     {
-//         id: "n101",
-//         type: "note-txt",
-//         isPinned: false,
-//         info: {
-//             txt: "Fullstack Me Baby!"
-//         },
-//         style: {
-//             backgroundColor: "dimgray",
-//             padding: '10px'
-//         }
-//     },
-//     {
-//         id: "n102",
-//         type: "note-img",
-//         isPinned: false,
-//         info: {
-//             txt: "Bobi and Me",
-//             url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/1280px-Flag_of_Israel.svg.png"
-//         },
-//         style: {
-//             backgroundColor: "lightskyblue",
-//             padding: '10px'
-//         }
-//     },
-//     {
-//         id: "n103",
-//         type: "note-video",
-//         isPinned: false,
-//         info: {
-//             txt: "My Song!",
-//             url: "https://www.youtube.com/embed/tgbNymZ7vqY"
-//         },
-//         style: {
-//             backgroundColor: "lightsalmon",
-//             padding: '10px'
-//         }
-//     },
-//     {
-//         id: "n104",
-//         type: "note-todos",
-//         isPinned: false,
-//         info: {
-//             txt: "Get my stuff together",
-//             todos: [
-//                 { txt: "Driving liscence", doneAt: null },
-//                 { txt: "Coding power", doneAt: 187111111 }
-//             ]
-//         },
-//         style: {
-//             backgroundColor: "lightgreen",
-//             padding: '10px'
-//         }
-//     }
-// ];
