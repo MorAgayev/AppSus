@@ -5,8 +5,8 @@ export default {
                 <div class="msg-container">
                     <h1>Hello AppSus</h1>
                     <div class="link-container">
-                        <router-link to="">Emails</router-link>
-                        <router-link to="">Notes</router-link>
+                        <router-link to="/email">Emails</router-link>
+                        <router-link to="/note">Notes</router-link>
                     </div>
                 </div>
             </main>

@@ -23,16 +23,30 @@ export default {
     }, 
     methods: {
         toHomeApp() {
+            // if()/
+            // console.log(this.$router.history.current.fullPath);
+            if(this.$router.history.current.fullPath === '/') {
+                this.toggleNavModal()
+                return
+            }
             this.$router.push('/')
             this.toggleNavModal()
         },
 
         toEmailApp() {
+            if(this.$router.history.current.fullPath === '/email') {
+                this.toggleNavModal()
+                return
+            }
             this.$router.push('/email')
             this.toggleNavModal()
         },
         
         toNotesApp() {
+            if(this.$router.history.current.fullPath === '/note') {
+                this.toggleNavModal()
+                return
+            }
             this.$router.push('/note')
             this.toggleNavModal()
         },

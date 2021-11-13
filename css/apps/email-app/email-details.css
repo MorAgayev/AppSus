@@ -1,5 +1,5 @@
 .email-datails {
-    background-color: #aaa;
+    background-color: rgb(235, 235, 235);
     padding: 40px;
     height: 80vh;
     display: flex;
@@ -32,4 +32,12 @@
 
 .details-body p {
     padding: 0;
+}
+
+.details-btn > * {
+    color: black;
+    border: 1px solid gray;
+    text-decoration: none;
+    background-color: #fff;
+    padding: 5px 10px;
 }

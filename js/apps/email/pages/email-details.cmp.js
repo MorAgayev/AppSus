@@ -6,13 +6,13 @@ export default {
     template: `
         <section v-if="email" class="email-datails">
             <div class="details-btn">
-                <router-link to="/email">Back</router-link>
+                <router-link class="back-btn" to="/email">Back</router-link>
                 <button @click="removeEmail">Delete</button>
             </div>
             <div class="top-details">
                 <h4>{{email.name}}</h4>
                 <small>{{email.to}}</small>
-                <p>{{email.sentAt}}</p>
+                <p>{{setDate}}</p>
             </div>
             <div class="details-body">
                 <p>{{email.body}}</p>
@@ -40,6 +40,14 @@ export default {
                     else emailService.removeAt(this.email.id)
                     this.$router.push('/email')
                 })
+        }
+    }, 
+
+    computed: {
+        setDate() {
+            var d = new Date(this.email.sentAt);
+            var dateStr = d.toString().slice(4, 10)
+            return dateStr;
         }
     }
 }

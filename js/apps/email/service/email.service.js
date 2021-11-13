@@ -18,6 +18,7 @@ export const emailService = {
     removeEmail,
     removeAt,
     putEmail,
+    sendToNotes
 }
 
 const gCriteria = {
@@ -28,11 +29,26 @@ const gCriteria = {
     // lables: ['important', 'romantic'] // has any of the labels
 }
 
+function sendToNotes(email) {
+    const note = {
+        type: 'note-txt',
+        isPinned: false,
+        info: {
+            txt: 
+                `from: ${email.name}, ${'\n'} to: ${email.to}, \n subject:${email.subject}, \n body:${email.body}`          
+        },
+        style: {
+            backgroundColor: 'lightblue',
+            padding: '10px'
+        }
+    }
+    storageService.post('notes', note);
+}
+
 function removeAt(id) {
     getById(id)
         .then(email => _updateEmailStatus(email, 'trash'))
         .then(email => putEmail(email))
-
 }
 
 function _updateEmailStatus(email, status) {
@@ -99,7 +115,7 @@ function createEmails() {
     return emails
 }
 
-function createEmail(name, subject, body, status = 'inbox', to = 'momo@momo.com') {
+function createEmail(name='', subject='', body='', status = 'inbox', to = 'momo@momo.com') {
     return {
         id: _makeEmailId(),
         name,

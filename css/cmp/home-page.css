@@ -30,16 +30,17 @@
 }
 
 .link-container > * {
-    background-color: rgb(192, 65, 65);
-    color: black;
+    background-color: rgb(36, 55, 167);
+    box-shadow: 0.5px 0.5px 1px 1px rgb(112, 112, 112);
+    color: white;
+    font-weight: 500;
     text-decoration: none;
     padding: 20px;
     border-radius: 5px;
 }
 
 .link-container > *:hover {
-    background-color: rgb(220, 230, 203);
-    
+    background-color: rgb(38, 52, 102);
 }
 
 .home-img {

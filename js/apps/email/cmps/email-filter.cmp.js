@@ -1,6 +1,3 @@
-// import {
-//     emailService
-// } from "../service/email.service.js"
 export default {
     props: ['unreadEmails'],
     name: 'email-filter',

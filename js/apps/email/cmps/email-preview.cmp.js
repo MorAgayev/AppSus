@@ -12,8 +12,8 @@ export default {
                 <div class="preview-subject">{{email.subject}} - {{email.body}}</div>
                 <div class="preview-actions" v-if="hover" >
                     <li @click.stop="setIsRead" class="fa fa-inbox"></li>
-                    <li  @click.stop="removeEmail" class="fa fa-trash-o"></li>
-                    <li  class="fa fa-paper-plane"></li>
+                    <li @click.stop="removeEmail" class="fa fa-trash-o"></li>
+                    <li @click.stop="sentToNotes" class="fa fa-paper-plane"></li>
                 </div>
                 <span v-else>{{setDate}}</span>
             </article>
@@ -45,6 +45,10 @@ export default {
 
         removeEmail() {
             this.$emit('removeEmail', this.email.id)
+        }, 
+
+        sentToNotes() {
+            this.$emit('sentToNotes', this.email)
         }
     },
 
